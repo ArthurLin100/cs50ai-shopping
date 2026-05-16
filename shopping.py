@@ -59,7 +59,52 @@ def load_data(filename):
     labels should be the corresponding list of labels, where each label
     is 1 if Revenue is true, and 0 otherwise.
     """
-    raise NotImplementedError
+    integer_col_string = {"Administrative", "Informational", "ProductRelated", 
+                          "OperatingSystems", "Browser", "Region", "TrafficType"}
+    float_col_string = {"Administrative_Duration", "Informational_Duration", "ProductRelated_Duration", 
+                           "BounceRates", "ExitRates", "PageValues", "SpecialDay"}
+    month_dict = {"Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "June": 5,
+                   "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11 }
+    
+
+    with open(filename, "r") as file:
+        csv_reader = csv.reader(file)
+        header = next(csv_reader)  # Skip header row
+        col_interger = set()                
+                        
+        evidence = []
+        labels = []
+        
+        for row in csv_reader:
+            this_evidence = row[:-1]
+            for i in range(len(this_evidence)):
+                if header[i] in  integer_col_string: 
+                    this_evidence[i] = int(this_evidence[i])
+                elif header[i] in  float_col_string: 
+                    this_evidence[i] = float(this_evidence[i])
+                elif header[i] == "Month":
+                    month_idx = month_dict.get(this_evidence[i])
+                    if month_idx is not None:
+                        this_evidence[i] = month_idx
+                    else:
+                        print("unexpected month name")
+                elif header[i] == "VisitorType":
+                    if this_evidence[i] == "Returning_Visitor":                        
+                        this_evidence[i] = 1
+                    else:
+                        this_evidence[i] = 0
+                elif header[i] == "Weekend":
+                    if this_evidence[i] == "TRUE":                        
+                        this_evidence[i] = 1
+                    else:
+                        this_evidence[i] = 0
+            
+            evidence.append(this_evidence)
+            
+            this_label = 1 if row[-1] == "TRUE" else 0
+            labels.append(this_label)
+
+    return (evidence, labels)
 
 
 def train_model(evidence, labels):
