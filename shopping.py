@@ -62,10 +62,9 @@ def load_data(filename):
     integer_col_string = {"Administrative", "Informational", "ProductRelated", 
                           "OperatingSystems", "Browser", "Region", "TrafficType"}
     float_col_string = {"Administrative_Duration", "Informational_Duration", "ProductRelated_Duration", 
-                           "BounceRates", "ExitRates", "PageValues", "SpecialDay"}
+                        "BounceRates", "ExitRates", "PageValues", "SpecialDay"}
     month_dict = {"Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "June": 5,
-                   "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11 }
-    
+                  "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11 }
 
     with open(filename, "r") as file:
         csv_reader = csv.reader(file)
@@ -78,9 +77,9 @@ def load_data(filename):
         for row in csv_reader:
             this_evidence = row[:-1]
             for i in range(len(this_evidence)):
-                if header[i] in  integer_col_string: 
+                if header[i] in integer_col_string: 
                     this_evidence[i] = int(this_evidence[i])
-                elif header[i] in  float_col_string: 
+                elif header[i] in float_col_string: 
                     this_evidence[i] = float(this_evidence[i])
                 elif header[i] == "Month":
                     month_idx = month_dict.get(this_evidence[i])
@@ -148,6 +147,7 @@ def evaluate(labels, predictions):
     sensitivity = sense_cnt / positive_cnt
     specificity = speci_cnt / negative_cnt
     return (sensitivity, specificity)
+
 
 if __name__ == "__main__":
     main()
