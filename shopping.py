@@ -64,7 +64,7 @@ def load_data(filename):
     float_col_string = {"Administrative_Duration", "Informational_Duration", "ProductRelated_Duration", 
                         "BounceRates", "ExitRates", "PageValues", "SpecialDay"}
     month_dict = {"Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "June": 5,
-                  "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11 }
+                  "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11}
 
     with open(filename, "r") as file:
         csv_reader = csv.reader(file)
